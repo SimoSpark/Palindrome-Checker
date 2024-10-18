@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: rgb(237, 236, 236);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5ea362;
+            font-size: 1.19rem;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #history {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Palindrome Checker</h1>
+        <input id="input" type="text" placeholder="Type something" oninput="checkRealTime()">
+        <button onclick="check()">Check</button>
+        <div id="result"></div>
+        <div id="history">
+            <h2>Check History</h2>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById("input");
+        const result = document.getElementById("result");
+        const history = document.getElementById("history");
+
+        function reverseString(str) {
+            return str.split("").reverse().join("");
+        }
+
+        function isPalindrome(str) {
+            const cleanStr = str.toLowerCase().replace(/[^a-z0-9]/g, "");
+            return cleanStr === reverseString(cleanStr);
+        }
+
+        function checkRealTime() {
+            const value = input.value;
+            if (value.length > 0) {
+                if (isPalindrome(value)) {
+                    result.textContent = "✅ It's a palindrome!";
+                    result.style.color = "green";
+                } else {
+                    result.textContent = "❌ Not a palindrome";
+                    result.style.color = "red";
+                }
+            } else {
+                result.textContent = "";
+            }
+        }
+
+        function check() {
+            const value = input.value;
+            if (value.length > 0) {
+                const isPal = isPalindrome(value);
+                const historyItem = document.createElement("div");
+                historyItem.className = "history-item";
+                historyItem.innerHTML = `
+                    <span>${value}</span>
+                    <span>${isPal ? "✅" : "❌"}</span>
+                `;
+                history.insertBefore(historyItem, history.firstChild.nextSibling);
+            }
+            input.value="";
+        }
+    </script>
+</body>
+</html>
